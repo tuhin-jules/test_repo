@@ -1,0 +1,105 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+#app {
+    position: relative;
+    width: 300px;
+    height: 450px; /* Increased height to accommodate changes */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden; 
+}
+
+#pipe {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px; /* Slightly wider pipe */
+    height: 100px; 
+    background: linear-gradient(to right, #c0c0c0, #a9a9a9); /* Silver gradient */
+    border-radius: 10px 10px 5px 5px; /* Rounded top and bottom edges */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+#water-stream {
+    position: absolute;
+    top: 100px; /* Positioned at the bottom of the pipe */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px; /* Slightly thinner stream */
+    height: 0px; /* Will be animated by JS */
+    background-color: #3498db; /* Brighter blue for stream */
+    opacity: 0.9; /* Slight transparency */
+    display: none; /* Initially hidden */
+    border-radius: 0 0 3px 3px; /* Rounded bottom for the thinner stream */
+    z-index: 5; /* Ensure stream is above bucket container but below pipe visually if needed */
+    transition: height 0.3s ease-out;
+}
+
+#bucket-container {
+    position: absolute;
+    bottom: 60px; /* Adjusted position above the slider */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px; /* Adjusted width for tapered bucket */
+    height: 220px; /* Adjusted height */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end; 
+}
+
+#bucket {
+    width: 120px; /* Wider top */
+    height: 170px;
+    background: linear-gradient(to bottom, #e0e0e0, #c0c0c0); /* Light grey gradient for bucket body */
+    border: 3px solid #808080; /* Darker grey border */
+    border-top: none; 
+    position: relative; 
+    overflow: hidden; 
+    border-radius: 0 0 15px 15px; /* More rounded bottom */
+    /* Adding perspective for a slight 3D effect */
+    perspective: 100px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Adding a pseudo-element for the bucket opening/tapered effect */
+#bucket::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px; /* Start further left */
+    right: -10px; /* End further right */
+    height: 20px; /* Thickness of the rim */
+    background: #a0a0a0; /* Darker rim color */
+    border-radius: 5px 5px 0 0;
+    transform: rotateX(20deg); /* Tilt for perspective */
+    box-shadow: inset 0 -2px 3px rgba(0,0,0,0.1);
+}
+
+
+#water {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%; 
+    background-color: #3498db; /* Brighter blue for water */
+    transition: height 0.3s ease; 
+    border-radius: 0 0 12px 12px; /* Rounded to fit bucket bottom */
+}
+
+#water-slider {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+}
