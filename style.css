@@ -10,7 +10,7 @@ body {
 #app {
     position: relative;
     width: 300px;
-    height: 450px; /* Increased height to accommodate changes */
+    height: 450px; 
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -22,68 +22,69 @@ body {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 30px; /* Slightly wider pipe */
+    width: 30px; 
     height: 100px; 
-    background: linear-gradient(to right, #c0c0c0, #a9a9a9); /* Silver gradient */
-    border-radius: 10px 10px 5px 5px; /* Rounded top and bottom edges */
+    background: linear-gradient(to right, #c0c0c0, #a9a9a9); 
+    border-radius: 10px 10px 5px 5px; 
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
 }
 
 #water-stream {
     position: absolute;
-    top: 100px; /* Positioned at the bottom of the pipe */
+    top: 100px; 
     left: 50%;
     transform: translateX(-50%);
-    width: 6px; /* Slightly thinner stream */
-    height: 0px; /* Will be animated by JS */
-    background-color: #3498db; /* Brighter blue for stream */
-    opacity: 0.9; /* Slight transparency */
-    display: none; /* Initially hidden */
-    border-radius: 0 0 3px 3px; /* Rounded bottom for the thinner stream */
-    z-index: 5; /* Ensure stream is above bucket container but below pipe visually if needed */
+    width: 6px; 
+    height: 0px; 
+    background: linear-gradient(
+        to bottom,
+        rgba(52, 152, 219, 0.7) 0%, 
+        #3498db 70% 
+    );
+    opacity: 0.9; 
+    display: none; 
+    border-radius: 0 0 3px 3px; 
+    z-index: 5; 
     transition: height 0.3s ease-out;
 }
 
 #bucket-container {
     position: absolute;
-    bottom: 60px; /* Adjusted position above the slider */
+    bottom: 60px; 
     left: 50%;
     transform: translateX(-50%);
-    width: 160px; /* Adjusted width for tapered bucket */
-    height: 220px; /* Adjusted height */
+    width: 160px; 
+    height: 220px; 
     display: flex;
     justify-content: center;
     align-items: flex-end; 
 }
 
 #bucket {
-    width: 120px; /* Wider top */
+    width: 120px; 
     height: 170px;
-    background: linear-gradient(to bottom, #e0e0e0, #c0c0c0); /* Light grey gradient for bucket body */
-    border: 3px solid #808080; /* Darker grey border */
+    background: linear-gradient(to bottom, #e0e0e0, #c0c0c0); 
+    border: 3px solid #808080; 
     border-top: none; 
     position: relative; 
     overflow: hidden; 
-    border-radius: 0 0 15px 15px; /* More rounded bottom */
-    /* Adding perspective for a slight 3D effect */
+    border-radius: 0 0 15px 15px; 
     perspective: 100px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-/* Adding a pseudo-element for the bucket opening/tapered effect */
 #bucket::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -10px; /* Start further left */
-    right: -10px; /* End further right */
-    height: 20px; /* Thickness of the rim */
-    background: #a0a0a0; /* Darker rim color */
+    left: -10px; 
+    right: -10px; 
+    height: 20px; 
+    background: #a0a0a0; 
     border-radius: 5px 5px 0 0;
-    transform: rotateX(20deg); /* Tilt for perspective */
+    transform: rotateX(20deg); 
     box-shadow: inset 0 -2px 3px rgba(0,0,0,0.1);
 }
-
 
 #water {
     position: absolute;
@@ -91,10 +92,50 @@ body {
     left: 0;
     width: 100%;
     height: 0%; 
-    background-color: #3498db; /* Brighter blue for water */
+    background-color: #3498db; 
     transition: height 0.3s ease; 
-    border-radius: 0 0 12px 12px; /* Rounded to fit bucket bottom */
+    border-radius: 0 0 12px 12px; 
+    /* overflow: hidden; ensure pseudo-elements are clipped if necessary, but ripple should be on top */
 }
+
+/* Ripple Effect for #water */
+#water::after {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 2px; /* Adjusted: Start slightly below surface, animation will adjust */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0%; /* Animated */
+    height: 2px; /* Adjusted: Thinner ripple line */
+    background-color: rgba(255, 255, 255, 0.35); /* Adjusted: Slightly more subtle */
+    border-radius: 40%; /* Slightly elliptical */
+    opacity: 0; /* Animated */
+    z-index: 11; /* Above water, below splash potentially if splash z-index is higher */
+}
+
+#water.ripple-effect::after {
+    animation: ripple 0.5s ease-out; /* Adjusted: Shorter duration */
+}
+
+@keyframes ripple {
+    0% {
+        width: 0%;
+        opacity: 0;
+        top: 2px; /* Start position */
+    }
+    40% { /* Adjusted: Faster expansion */
+        width: 70%; 
+        opacity: 0.6;
+        top: 0px; 
+    }
+    100% {
+        width: 100%; 
+        opacity: 0;
+        top: -2px; /* Slightly above surface as it fades */
+    }
+}
+
 
 #water-slider {
     position: absolute;
@@ -102,4 +143,30 @@ body {
     left: 50%;
     transform: translateX(-50%);
     width: 80%;
+}
+
+#splash {
+    position: absolute;
+    display: none;
+    width: 25px; /* Adjusted: Smaller splash */
+    height: 12px; /* Adjusted: Smaller splash */
+    background-color: #3498db; 
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; 
+    opacity: 0; 
+    z-index: 10; /* Splash z-index, ripple could be 9 or 11. Let's make ripple 11 for on top of water, splash above stream. */
+}
+
+@keyframes splash-animation {
+    0% {
+        transform: scale(0.4) translateY(3px); /* Adjusted: Smaller start, less offset */
+        opacity: 0.6;
+    }
+    40% { /* Adjusted: Quicker to max opacity and upward movement */
+        transform: scale(1.1) translateY(-4px);
+        opacity: 0.9;
+    }
+    100% {
+        transform: scale(1.3) translateY(-7px); /* Adjusted: Less large at end */
+        opacity: 0;
+    }
 }
