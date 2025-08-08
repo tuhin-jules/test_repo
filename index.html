@@ -3,25 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Water Bucket</title>
+    <title>Biomarker Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div id="app">
-        <canvas id="liquidfun-canvas"></canvas>
-        <!-- 
-        <div id="pipe"></div>
-        <div id="water-stream"></div>
-        <div id="bucket-container">
-            <div id="bucket">
-                <div id="water"></div>
-            </div>
+        <h1>Biomarker Tracker</h1>
+        <form id="biomarker-form">
+            <select id="marker-name" required>
+                <option value="" disabled selected>Select Biomarker</option>
+                <option value="Hemoglobin">Hemoglobin</option>
+                <option value="Cholesterol">Cholesterol</option>
+                <option value="Glucose">Glucose</option>
+                <option value="Vitamin D">Vitamin D</option>
+                <option value="Iron">Iron</option>
+            </select>
+            <input type="number" id="marker-value" placeholder="Value" step="any" required>
+            <input type="date" id="marker-date" required>
+            <button type="submit">Add Biomarker</button>
+        </form>
+        <div id="biomarker-list"></div>
+        <div class="chart-container">
+            <canvas id="biomarker-chart"></canvas>
         </div>
-        <div id="splash"></div>
-         -->
-        <input type="range" id="water-slider" min="0" max="100" value="0">
     </div>
-    <script src="http://google.github.io/liquidfun/testbed/liquidfun.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
